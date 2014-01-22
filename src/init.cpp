@@ -331,7 +331,9 @@ bool AppInit2()
 #endif
 
     // ********************************************************* Step 2: parameter interactions
-
+	
+	nTransactionFee = 10;
+	
     fTestNet = GetBoolArg("-testnet");
     // Infinitecoin: Keep irc seeding on by default for now.
 //    if (fTestNet)
@@ -411,7 +413,7 @@ bool AppInit2()
     const char* pszP2SH = "/P2SH/";
     COINBASE_FLAGS << std::vector<unsigned char>(pszP2SH, pszP2SH+strlen(pszP2SH));
 
-
+	
     if (mapArgs.count("-paytxfee"))
     {
         if (!ParseMoney(mapArgs["-paytxfee"], nTransactionFee))
