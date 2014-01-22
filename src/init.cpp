@@ -332,7 +332,6 @@ bool AppInit2()
 
     // ********************************************************* Step 2: parameter interactions
 	
-	nTransactionFee = 10;
 	
     fTestNet = GetBoolArg("-testnet");
     // Infinitecoin: Keep irc seeding on by default for now.
