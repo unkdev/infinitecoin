@@ -1129,7 +1129,7 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend, CW
 
 				int64 newMinTxFee = MIN_TX_FEE;
 
-                if (nFeeRet < newMinTxFee && nChange > 0 && nChange < CENT)
+                if (nFeeRet < newMinTxFee && nChange > 0 && nChange < COIN)
                 {
                     int64 nMoveToFee = min(nChange, newMinTxFee - nFeeRet);
                     nChange -= nMoveToFee;
