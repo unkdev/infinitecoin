@@ -420,10 +420,7 @@ bool AppInit2()
         if (nTransactionFee > 25.0 * COIN)
             InitWarning(_("Warning: -paytxfee is set very high. This is the transaction fee you will pay if you send a transaction."));
     }
-    else
-    {
-        nTransactionFee = 10.0 * COIN;
-    }
+  
 
     if (mapArgs.count("-mininput"))
     {
