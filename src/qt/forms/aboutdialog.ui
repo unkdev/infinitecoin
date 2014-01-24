@@ -213,7 +213,7 @@
      <item>
       <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>Offical Website: &lt;a href=&quot;http://www.infiniteco.in/&quot;&gt;www.infiniteco.in&lt;/a&gt;</string>
+        <string>Offical Website: &lt;a href=&quot;http://www.infinitecoin.com/&quot;&gt;www.infinitecoin.com&lt;/a&gt;</string>
        </property>
        <property name="openExternalLinks">
         <bool>true</bool>
