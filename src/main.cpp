@@ -2527,10 +2527,12 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
         uint64 nNonce = 1;
         vRecv >> pfrom->nVersion >> pfrom->nServices >> nTime >> addrMe;
 
-        if(GetTime() >= IFC_SWITCH_VER )
-            MIN_PEER_PROTO_VERSION = PROTOCOL_VERSION;
+        int cVersion = MIN_PEER_PROTO_VERSION;
 
-        if (pfrom->nVersion < MIN_PEER_PROTO_VERSION)
+        if(GetTime() >= IFC_SWITCH_VER )
+            cVersion = PROTOCOL_VERSION;
+
+        if (pfrom->nVersion < cVersion)
         {
             // Since February 20, 2012, the protocol is initiated at version 209,
             // and earlier versions are no longer supported
