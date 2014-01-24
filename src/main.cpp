@@ -62,7 +62,7 @@ int64 nHPSTimerStart;
 
 // Settings
 int64 nTransactionFee = 0;
-int64 nMinimumInputValue = CENT;
+int64 nMinimumInputValue = COIN;
 
 
 
