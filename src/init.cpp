@@ -422,7 +422,7 @@ bool AppInit2()
     }
     else
     {
-        nTransactionFee = 10.0;
+        nTransactionFee = 10.0 * COIN;
     }
 
     if (mapArgs.count("-mininput"))
