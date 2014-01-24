@@ -432,7 +432,7 @@ bool AppInit2()
     }
     else
     {
-        nMinimumInputValue = 1000.0 * COIN;
+        nMinimumInputValue = COIN;
     }
 
     if (mapArgs.count("-checkpointkey")) // ppcoin: checkpoint master priv key
