@@ -1164,8 +1164,7 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend, CW
                     //  rediscover unknown transactions that were written with keys of ours to recover
                     //  post-backup change.
 
-                    CPubKey vchPubKey;
-                    assert(reservekey.GetReservedKey(vchPubKey)); // should never fail, as we just unlocked
+                    CPubKey vchPubKey = reservekey.GetReservedKey();
 
                     CScript scriptChange;
                     scriptChange.SetDestination(vchPubKey.GetID());
