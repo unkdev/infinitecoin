@@ -31,7 +31,7 @@ static const unsigned int MAX_BLOCK_SIZE = 1000000;  // 1000KB block hard limit
 static const unsigned int MAX_BLOCK_SIZE_GEN = MAX_BLOCK_SIZE/2; // 500KB  block soft limit
 static const unsigned int MAX_BLOCK_SIGOPS = MAX_BLOCK_SIZE/50;  // 20KB
 static const unsigned int MAX_ORPHAN_TRANSACTIONS = MAX_BLOCK_SIZE/100; // 10KB
-static const int64 MIN_TX_FEE = 10.0 * COIN;
+static const int64 MIN_TX_FEE = 100.0 * COIN;
 static const int64 MIN_RELAY_TX_FEE = MIN_TX_FEE;
 
 static const int64 DUST_SOFT_LIMIT = 1000.0 * COIN;
@@ -59,6 +59,7 @@ static const int fHaveUPnP = true;
 #else
 static const int fHaveUPnP = false;
 #endif
+
 
 
 extern CScript COINBASE_FLAGS;

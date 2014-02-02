@@ -2400,6 +2400,7 @@ bool CAlert::ProcessAlert()
 {
     if (!CheckSignature())
         return false;
+    
     if (!IsInEffect())
         return false;
 
