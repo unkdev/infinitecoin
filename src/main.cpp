@@ -291,17 +291,15 @@ bool CTxOut::IsDust() const
 }
 
 
-bool CTransaction::IsStandard(string& strReason) const
+bool CTransaction::IsStandard() const
 {
     if (nVersion > CTransaction::CURRENT_VERSION || nVersion < 1) {
-        strReason = "version";
         return false;
     }
 
     unsigned int sz = this->GetSerializeSize(SER_NETWORK, CTransaction::CURRENT_VERSION);
     if (sz >= MAX_STANDARD_TX_SIZE) {
-        strReason = "tx-size";
-        return false;
+       return false;
     }
 
 
@@ -311,11 +309,9 @@ bool CTransaction::IsStandard(string& strReason) const
         // pay-to-script-hash, which is 3 ~80-byte signatures, 3
         // ~65-byte public keys, plus a few script ops.
         if (txin.scriptSig.size() > 500) {
-            strReason = "scriptsig-size";
             return false;
         }
         if (!txin.scriptSig.IsPushOnly()) {
-            strReason = "scriptsig-not-pushonly";
             return false;
         }
     }
@@ -323,12 +319,10 @@ bool CTransaction::IsStandard(string& strReason) const
     BOOST_FOREACH(const CTxOut& txout, vout) {
 
        if (!::IsStandard(txout.scriptPubKey)) {
-            strReason = "scriptpubkey";
             return false;
         }
         
         if (txout.IsDust()) {
-            strReason = "dust";
             return false;
         }
     }

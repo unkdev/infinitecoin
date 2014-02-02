@@ -1060,10 +1060,13 @@ Value sendmany(const Array& params, bool fHelp)
     // Send
     CReserveKey keyChange(pwalletMain);
     int64 nFeeRequired = 0;
-    string strFailReason;
     bool fCreated = pwalletMain->CreateTransaction(vecSend, wtx, keyChange, nFeeRequired);
     if (!fCreated)
-        throw JSONRPCError(RPC_WALLET_INSUFFICIENT_FUNDS, strFailReason);
+    {
+        if (totalAmount + nFeeRequired > pwalletMain->GetBalance())
+            throw JSONRPCError(-6, "Insufficient funds");
+        throw JSONRPCError(-4, "Transaction creation failed");
+    }
     if (!pwalletMain->CommitTransaction(wtx, keyChange))
         throw JSONRPCError(-4, "Transaction commit failed");
 

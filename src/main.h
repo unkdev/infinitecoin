@@ -503,12 +503,8 @@ public:
     /** Check for standard transaction types
         @return True if all outputs (scriptPubKeys) use only standard transaction forms
     */
-    bool IsStandard(std::string& strReason) const;
-    bool IsStandard() const
-    {
-        std::string strReason;
-        return IsStandard(strReason);
-    }
+    bool IsStandard() const;
+   
 
 
     /** Check for standard transaction types
