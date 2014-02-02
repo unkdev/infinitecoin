@@ -27,12 +27,18 @@ class CInv;
 class CRequestTracker;
 class CNode;
 
-static const unsigned int MAX_BLOCK_SIZE = 1000000;
-static const unsigned int MAX_BLOCK_SIZE_GEN = MAX_BLOCK_SIZE/2;
-static const unsigned int MAX_BLOCK_SIGOPS = MAX_BLOCK_SIZE/50;
-static const unsigned int MAX_ORPHAN_TRANSACTIONS = MAX_BLOCK_SIZE/100;
+static const unsigned int MAX_BLOCK_SIZE = 1000000;  // 1000KB block hard limit
+static const unsigned int MAX_BLOCK_SIZE_GEN = MAX_BLOCK_SIZE/2; // 500KB  block soft limit
+static const unsigned int MAX_BLOCK_SIGOPS = MAX_BLOCK_SIZE/50;  // 20KB
+static const unsigned int MAX_ORPHAN_TRANSACTIONS = MAX_BLOCK_SIZE/100; // 10KB
 static const int64 MIN_TX_FEE = 10.0 * COIN;
 static const int64 MIN_RELAY_TX_FEE = MIN_TX_FEE;
+
+static const int64 DUST_SOFT_LIMIT = 1000.0 * COIN;
+static const int64 DUST_HARD_LIMIT = 1000.0 * COIN; 
+
+
+
 static const int64 MAX_MONEY = 90600000000 * COIN; // Infinitecoin: maximum of 90600M coins
 inline bool MoneyRange(int64 nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
 static const int COINBASE_MATURITY = 60;
@@ -570,7 +576,7 @@ public:
 
         // To limit dust spam, add MIN_TX_FEE/MIN_RELAY_TX_FEE for any output that is less than 0.01
         BOOST_FOREACH(const CTxOut& txout, vout)
-            if (txout.nValue < COIN)
+            if (txout.nValue < DUST_SOFT_LIMIT)
                 nMinFee += nBaseFee;
 
         // Raise the price as the block approaches full

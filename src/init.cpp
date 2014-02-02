@@ -420,20 +420,14 @@ bool AppInit2()
         if (nTransactionFee > 25.0 * COIN)
             InitWarning(_("Warning: -paytxfee is set very high. This is the transaction fee you will pay if you send a transaction."));
     }
-    else
-    {
-        nTransactionFee = 10.0 * COIN;
-    }
+    
 
     if (mapArgs.count("-mininput"))
     {
         if (!ParseMoney(mapArgs["-mininput"], nMinimumInputValue))
             return InitError(strprintf(_("Invalid amount for -mininput=<amount>: '%s'"), mapArgs["-mininput"].c_str()));
     }
-    else
-    {
-        nMinimumInputValue = COIN;
-    }
+   
 
     if (mapArgs.count("-checkpointkey")) // ppcoin: checkpoint master priv key
     {

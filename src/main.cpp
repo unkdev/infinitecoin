@@ -62,7 +62,7 @@ int64 nHPSTimerStart;
 
 // Settings
 int64 nTransactionFee = 10.0 * COIN;
-int64 nMinimumInputValue = COIN;
+int64 nMinimumInputValue = DUST_HARD_LIMIT;
 
 
 
