@@ -572,6 +572,8 @@ public:
                 if (nNewBlockSize < 27000)
                     nMinFee = 0;
             }
+
+            
         }
 
         // To limit dust spam, add MIN_TX_FEE/MIN_RELAY_TX_FEE for any output that is less than 0.01
