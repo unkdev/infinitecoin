@@ -291,11 +291,12 @@ bool CTxOut::IsDust() const
 }
 
 
-bool CTransaction::IsStandard() const
+bool CTransaction::IsStandard(string& strReason) const
 {
-    if (nVersion > CTransaction::CURRENT_VERSION)
+    if (nVersion > CTransaction::CURRENT_VERSION || nVersion < 1) {
+        strReason = "version";
         return false;
-
+    }
 
     unsigned int sz = this->GetSerializeSize(SER_NETWORK, CTransaction::CURRENT_VERSION);
     if (sz >= MAX_STANDARD_TX_SIZE) {
@@ -318,7 +319,9 @@ bool CTransaction::IsStandard() const
             return false;
         }
     }
-    BOOST_FOREACH(const CTxOut& txout, vout)
+    
+    BOOST_FOREACH(const CTxOut& txout, vout) {
+
        if (!::IsStandard(txout.scriptPubKey)) {
             strReason = "scriptpubkey";
             return false;
@@ -328,6 +331,7 @@ bool CTransaction::IsStandard() const
             strReason = "dust";
             return false;
         }
+    }
 
     return true;
 }
