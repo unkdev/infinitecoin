@@ -31,6 +31,11 @@ static const unsigned int MAX_BLOCK_SIZE = 1000000;  // 1000KB block hard limit
 static const unsigned int MAX_BLOCK_SIZE_GEN = MAX_BLOCK_SIZE/2; // 500KB  block soft limit
 static const unsigned int MAX_BLOCK_SIGOPS = MAX_BLOCK_SIZE/50;  // 20KB
 static const unsigned int MAX_ORPHAN_TRANSACTIONS = MAX_BLOCK_SIZE/100; // 10KB
+
+/** The maximum size for transactions we're willing to relay/mine */
+static const unsigned int MAX_STANDARD_TX_SIZE = 100000;
+
+
 static const int64 MIN_TX_FEE = 100.0 * COIN;
 static const int64 MIN_RELAY_TX_FEE = MIN_TX_FEE;
 
@@ -366,6 +371,8 @@ public:
         return !(a == b);
     }
 
+    bool IsDust() const;
+
     std::string ToString() const
     {
         if (scriptPubKey.size() < 6)
@@ -397,6 +404,8 @@ typedef std::map<uint256, std::pair<CTxIndex, CTransaction> > MapPrevTx;
 class CTransaction
 {
 public:
+    static int64 nMinTxFee;
+    static int64 nMinRelayTxFee;
     static const int CURRENT_VERSION=1;
     int nVersion;
     std::vector<CTxIn> vin;
@@ -552,7 +561,7 @@ public:
     int64 GetMinFee(unsigned int nBlockSize=1, bool fAllowFree=true, enum GetMinFee_mode mode=GMF_BLOCK) const
     {
         // Base fee is either MIN_TX_FEE or MIN_RELAY_TX_FEE
-        int64 nBaseFee = (mode == GMF_RELAY) ? MIN_RELAY_TX_FEE : MIN_TX_FEE;
+        int64 nBaseFee = (mode == GMF_RELAY) ? nMinRelayTxFee : nMinTxFee;
 
         unsigned int nBytes = ::GetSerializeSize(*this, SER_NETWORK, PROTOCOL_VERSION);
         unsigned int nNewBlockSize = nBlockSize + nBytes;

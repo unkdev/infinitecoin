@@ -65,7 +65,7 @@ static bool ThreadSafeAskFee(int64 nFeeRequired, const std::string& strCaption)
 
 	int64 nBaseFee = MIN_TX_FEE;
 
-    if(nFeeRequired < nBaseFee || nFeeRequired <= nTransactionFee || fDaemon)
+    if(nFeeRequired < CTransaction::nMinTxFee || nFeeRequired <= nTransactionFee || fDaemon)
         return true;
 
     bool payFee = false;

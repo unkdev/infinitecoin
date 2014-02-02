@@ -64,6 +64,8 @@ int64 nHPSTimerStart;
 int64 nTransactionFee = 10.0 * COIN;
 int64 nMinimumInputValue = DUST_HARD_LIMIT;
 
+int64 CTransaction::nMinTxFee=DUST_HARD_LIMIT;
+int64 CTransaction::nMinRelayTxFee=DUST_HARD_LIMIT;
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -273,24 +275,60 @@ bool CTransaction::ReadFromDisk(COutPoint prevout)
     return ReadFromDisk(txdb, prevout, txindex);
 }
 
+bool CTxOut::IsDust() const
+{
+  
+    // "Dust" is defined in terms of CTransaction::nMinRelayTxFee,
+    // which has units satoshis-per-kilobyte.
+    // If you'd pay more than 1/3 in fees
+    // to spend something, then we consider it dust.
+    // A typical txout is 33 bytes big, and will
+    // need a CTxIn of at least 148 bytes to spend,
+    // so dust is a txout less than 54 uBTC
+    // (5430 satoshis) with default nMinRelayTxFee
+
+   return ((nValue*1000)/(3*((int)GetSerializeSize(SER_DISK,0)+148)) < CTransaction::nMinRelayTxFee);
+}
+
+
 bool CTransaction::IsStandard() const
 {
     if (nVersion > CTransaction::CURRENT_VERSION)
         return false;
+
+
+    unsigned int sz = this->GetSerializeSize(SER_NETWORK, CTransaction::CURRENT_VERSION);
+    if (sz >= MAX_STANDARD_TX_SIZE) {
+        strReason = "tx-size";
+        return false;
+    }
+
 
     BOOST_FOREACH(const CTxIn& txin, vin)
     {
         // Biggest 'standard' txin is a 3-signature 3-of-3 CHECKMULTISIG
         // pay-to-script-hash, which is 3 ~80-byte signatures, 3
         // ~65-byte public keys, plus a few script ops.
-        if (txin.scriptSig.size() > 500)
+        if (txin.scriptSig.size() > 500) {
+            strReason = "scriptsig-size";
             return false;
-        if (!txin.scriptSig.IsPushOnly())
+        }
+        if (!txin.scriptSig.IsPushOnly()) {
+            strReason = "scriptsig-not-pushonly";
             return false;
+        }
     }
     BOOST_FOREACH(const CTxOut& txout, vout)
-        if (!::IsStandard(txout.scriptPubKey))
+       if (!::IsStandard(txout.scriptPubKey)) {
+            strReason = "scriptpubkey";
             return false;
+        }
+        
+        if (txout.IsDust()) {
+            strReason = "dust";
+            return false;
+        }
+
     return true;
 }
 
@@ -577,7 +615,7 @@ bool CTxMemPool::accept(CTxDB& txdb, CTransaction &tx, bool fCheckInputs,
 
 		int64 newMinRelayTxFee = MIN_RELAY_TX_FEE;
 
-        if (nFees < newMinRelayTxFee)
+        if (nFees < CTransaction::nMinRelayTxFee)
         {
             static CCriticalSection cs;
             static double dFreeCount;
@@ -2400,7 +2438,7 @@ bool CAlert::ProcessAlert()
 {
     if (!CheckSignature())
         return false;
-    
+
     if (!IsInEffect())
         return false;
 
