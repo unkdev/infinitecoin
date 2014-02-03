@@ -1155,7 +1155,7 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend, CW
                     //  post-backup change.
 
                     CPubKey vchPubKey;
-                    assert(reservekey.GetReservedKey(vchPubKey)); // should never fail, as we just unlocked
+                    reservekey.GetReservedKey();
 
                     CScript scriptChange;
                     scriptChange.SetDestination(vchPubKey.GetID());
