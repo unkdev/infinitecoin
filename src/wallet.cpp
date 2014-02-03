@@ -1154,26 +1154,19 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend, CW
                     //  rediscover unknown transactions that were written with keys of ours to recover
                     //  post-backup change.
 
+                    // Reserve a new key pair from key pool
                     CPubKey vchPubKey = reservekey.GetReservedKey();
+                    // assert(mapKeys.count(vchPubKey));
 
+                    // Fill a vout to ourself
+                    // TODO: pass in scriptChange instead of reservekey so
+                    // change transaction isn't always pay-to-bitcoin-address
                     CScript scriptChange;
                     scriptChange.SetDestination(vchPubKey.GetID());
 
-                    CTxOut newTxOut(nChange, scriptChange);
-
-                    // Never create dust outputs; if we would, just
-                    // add the dust to the fee.
-                    
-                    if (newTxOut.IsDust())
-                    {
-                        nFeeRet += nChange;
-                        reservekey.ReturnKey();
-                    }
-                    else
-                    {
-                        vector<CTxOut>::iterator position = wtxNew.vout.begin()+GetRandInt(wtxNew.vout.size()+1);
-                        wtxNew.vout.insert(position, newTxOut);
-                    } 
+                    // Insert change txn at random position:
+                    vector<CTxOut>::iterator position = wtxNew.vout.begin()+GetRandInt(wtxNew.vout.size());
+                    wtxNew.vout.insert(position, CTxOut(nChange, scriptChange));
                     
 
                 }
