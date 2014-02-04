@@ -413,7 +413,7 @@ bool AppInit2()
     COINBASE_FLAGS << std::vector<unsigned char>(pszP2SH, pszP2SH+strlen(pszP2SH));
 
 	nTransactionFee = 10.0 * COIN;
-    nMinimumInputValue = DUST_HARD_LIMIT;
+    nMinimumInputValue = 10.0 * COIN;
 
     if (mapArgs.count("-paytxfee"))
     {
