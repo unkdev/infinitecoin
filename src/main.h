@@ -39,9 +39,8 @@ static const unsigned int MAX_STANDARD_TX_SIZE = 100000;
 static const int64 MIN_TX_FEE = 100.0 * COIN;
 static const int64 MIN_RELAY_TX_FEE = MIN_TX_FEE;
 
-static const int64 DUST_SOFT_LIMIT = 10.0 * COIN;
-static const int64 DUST_HARD_LIMIT = 100.0 * COIN; 
-
+static const int64 DUST_SOFT_LIMIT = 100.0 * COIN;
+static const int64 DUST_HARD_LIMIT = 1000.0 * COIN; 
 
 
 static const int64 MAX_MONEY = 90600000000 * COIN; // Infinitecoin: maximum of 90600M coins
