@@ -590,7 +590,7 @@ public:
 
         // To limit dust spam, add MIN_TX_FEE/MIN_RELAY_TX_FEE for any output that is less than 0.01
         BOOST_FOREACH(const CTxOut& txout, vout)
-            if (txout.nValue < DUST_SOFT_LIMIT)
+            if (txout.nValue < DUST_HARD_LIMIT)
                 nMinFee += nBaseFee;
 
         // Raise the price as the block approaches full
