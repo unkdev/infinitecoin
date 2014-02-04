@@ -64,8 +64,8 @@ int64 nHPSTimerStart;
 int64 nTransactionFee = 10.0 * COIN;
 int64 nMinimumInputValue = DUST_HARD_LIMIT;
 
-int64 CTransaction::nMinTxFee=DUST_HARD_LIMIT;
-int64 CTransaction::nMinRelayTxFee=DUST_HARD_LIMIT;
+int64 CTransaction::nMinTxFee=DUST_SOFT_LIMIT;
+int64 CTransaction::nMinRelayTxFee=DUST_SOFT_LIMIT;
 
 
 //////////////////////////////////////////////////////////////////////////////
