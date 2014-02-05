@@ -16,6 +16,9 @@
 
 #include <list>
 
+
+
+
 class CWallet;
 class CBlock;
 class CBlockIndex;

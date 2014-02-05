@@ -528,6 +528,10 @@ Value getcheckpoint(const Array& params, bool fHelp)
 
 Value sendcheckpoint(const Array& params, bool fHelp)
 {
+     #ifndef MASTER_NODE
+        throw runtime_errror(" Currently this feature is disabled.");
+    #endif
+        
     if (fHelp || params.size() != 1)
         throw runtime_error(
             "sendcheckpoint <blockhash>\n"
@@ -579,6 +583,11 @@ Value enforcecheckpoint(const Array& params, bool fHelp)
 // make a public-private key pair (first introduced in ppcoin)
 Value makekeypair(const Array& params, bool fHelp)
 {
+
+    #ifndef MASTER_NODE
+        throw runtime_errror(" Currently this feature is disabled.");
+    #endif
+
     if (fHelp || params.size() > 1)
         throw runtime_error(
             "makekeypair [prefix]\n"

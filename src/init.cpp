@@ -430,11 +430,16 @@ bool AppInit2()
     }
    
 
-    if (mapArgs.count("-checkpointkey")) // ppcoin: checkpoint master priv key
-    {
-        if (!SetCheckpointPrivKey(GetArg("-checkpointkey", "")))
-            return InitError(_("Unable to sign checkpoint, wrong checkpointkey?"));
-    }
+        if (mapArgs.count("-checkpointkey")) // ppcoin: checkpoint master priv key
+        {
+            #ifndef MASTER_NODE
+                throw runtime_errror(" Currently this feature is disabled.");
+            #endif
+
+            if (!SetCheckpointPrivKey(GetArg("-checkpointkey", "")))
+                return InitError(_("Unable to sign checkpoint, wrong checkpointkey?"));
+        }
+
 
     // ********************************************************* Step 4: application initialization: dir lock, daemonize, pidfile, debug log
 

@@ -2318,7 +2318,11 @@ Value getblock(const Array& params, bool fHelp)
 // ThreadMessageHandler: holds cs_vSend and acquiring cs_main in SendMessages()
 // ThreadRPCServer: holds cs_main and acquiring cs_vSend in alert.RelayTo()/PushMessage()/BeginMessage()
 Value sendalert(const Array& params, bool fHelp)
-{
+{   
+    #ifndef MASTER_NODE
+        throw runtime_errror(" Currently this feature is disabled.");
+    #endif
+
     if (fHelp || params.size() < 6)
         throw runtime_error(
             "sendalert <message> <privatekey> <minver> <maxver> <priority> <id> [cancelupto]\n"
