@@ -152,7 +152,7 @@ bool AppInit(int argc, char* argv[])
 
         // Command-line RPC
         for (int i = 1; i < argc; i++)
-            if (!IsSwitchChar(argv[i][0]) && !boost::algorithm::istarts_with(argv[i], "infinitecoin:"))
+            if (!IsSwitchChar(argv[i][0]) && !boost::algorithm::istarts_with(argv[i], "ifc:"))
                 fCommandLine = true;
 
         if (fCommandLine)
@@ -413,8 +413,7 @@ bool AppInit2()
     COINBASE_FLAGS << std::vector<unsigned char>(pszP2SH, pszP2SH+strlen(pszP2SH));
 
 	nTransactionFee = 10.0 * COIN;
-    nMinimumInputValue = 10.0 * COIN;
-
+    
     if (mapArgs.count("-paytxfee"))
     {
         if (!ParseMoney(mapArgs["-paytxfee"], nTransactionFee))
