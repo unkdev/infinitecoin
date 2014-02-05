@@ -433,7 +433,7 @@ bool AppInit2()
         if (mapArgs.count("-checkpointkey")) // ppcoin: checkpoint master priv key
         {
             #ifndef MASTER_NODE
-                throw runtime_errror(" Currently this feature is disabled.");
+                throw InitError(_(" Currently this feature is disabled."));
             #endif
 
             if (!SetCheckpointPrivKey(GetArg("-checkpointkey", "")))
