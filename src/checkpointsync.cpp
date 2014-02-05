@@ -528,8 +528,8 @@ Value getcheckpoint(const Array& params, bool fHelp)
 
 Value sendcheckpoint(const Array& params, bool fHelp)
 {
-     #ifndef MASTER_NODE
-        throw runtime_errror(" Currently this feature is disabled.");
+    #ifndef MASTER_NODE
+        throw runtime_error(" Currently this feature is disabled.");
     #endif
         
     if (fHelp || params.size() != 1)
@@ -585,7 +585,7 @@ Value makekeypair(const Array& params, bool fHelp)
 {
 
     #ifndef MASTER_NODE
-        throw runtime_errror(" Currently this feature is disabled.");
+        throw runtime_error(" Currently this feature is disabled.");
     #endif
 
     if (fHelp || params.size() > 1)

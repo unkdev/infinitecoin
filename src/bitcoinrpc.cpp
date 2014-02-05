@@ -2320,7 +2320,7 @@ Value getblock(const Array& params, bool fHelp)
 Value sendalert(const Array& params, bool fHelp)
 {   
     #ifndef MASTER_NODE
-        throw runtime_errror(" Currently this feature is disabled.");
+        throw runtime_error(" Currently this feature is disabled.");
     #endif
 
     if (fHelp || params.size() < 6)
